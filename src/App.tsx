@@ -75,6 +75,17 @@ const GoogleAd = ({ className }: { className?: string }) => {
   );
 };
 
+const FadeIn: React.FC<{ children: React.ReactNode, delay?: number }> = ({ children, delay = 0 }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-100px" }}
+    transition={{ duration: 0.6, delay }}
+  >
+    {children}
+  </motion.div>
+);
+
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [branches, setBranches] = useState<any[]>([]);
@@ -156,17 +167,6 @@ export default function App() {
       setIsMenuOpen(false);
     }
   };
-
-  const FadeIn = ({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) => (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.6, delay }}
-    >
-      {children}
-    </motion.div>
-  );
 
   return (
     <div className="min-h-screen bg-white font-sans text-slate-800">
@@ -454,34 +454,46 @@ export default function App() {
             
             <FadeIn delay={0.2}>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight break-keep">
-                스마트한 교육 관리,<br />
-                <span className="text-amber-400">장고 전용 앱</span> 출시
+                스마트한 업무 관리,<br />
+                <span className="text-amber-400">장고 전용 앱</span>
               </h2>
-              <p className="text-xl text-slate-300 mb-10 leading-relaxed break-keep font-light">
-                강사 매칭부터 프로그램 일정 관리, 교육 자료 열람까지. 모바일 앱 하나로 모든 것을 간편하게 관리하세요.
+              <p className="text-xl text-slate-300 mb-8 leading-relaxed break-keep font-light">
+                강사, 지사, 미용봉사까지. 목적에 맞는 전용 앱으로 업무를 스마트하게 자동화하세요.
               </p>
               
-              <div className="grid sm:grid-cols-2 gap-6 mb-10">
-                {[
-                  { title: "실시간 강사 매칭 현황 제공", desc: "기관에 딱 맞는 강사를 빠르게 연결" },
-                  { title: "스마트 일정 관리", desc: "월간/주간 수업 일정을 한눈에 확인" },
-                  { title: "교육 자료실", desc: "최신 인지놀이 교안 및 영상 제공" },
-                  { title: "수업 일지 작성", desc: "앱에서 바로 작성하고 기관과 공유" }
-                ].map((feature, idx) => (
-                  <div key={idx} className="bg-white/5 rounded-2xl p-5 border border-white/10">
-                    <h4 className="text-lg font-bold text-white mb-2">{feature.title}</h4>
-                    <p className="text-slate-400 text-sm break-keep">{feature.desc}</p>
+              <div className="space-y-4">
+                {/* 강사 연동 앱 */}
+                <div className="bg-white/5 rounded-2xl p-6 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div>
+                    <h3 className="text-xl font-bold text-amber-400 mb-2">강사 연동 앱</h3>
+                    <p className="text-slate-300 text-sm break-keep">스마트 일정관리, 교육자료공유, 수업 진행</p>
                   </div>
-                ))}
-              </div>
-              
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button className="bg-white text-slate-900 px-6 py-4 rounded-xl font-bold text-lg hover:bg-slate-100 transition-colors flex items-center justify-center">
-                  <Play className="mr-2" size={24} fill="currentColor" /> Google Play 다운로드
-                </button>
-                <button className="bg-blue-800 text-white border border-blue-700 px-6 py-4 rounded-xl font-medium text-lg hover:bg-blue-700 transition-colors flex items-center justify-center">
-                  <Download className="mr-2" size={24} /> 앱 사용 가이드
-                </button>
+                  <button className="bg-white text-slate-900 px-5 py-3 rounded-xl font-bold hover:bg-slate-100 transition-colors flex items-center justify-center shrink-0">
+                    <Play className="mr-2" size={20} fill="currentColor" /> 구글 플레이 다운로드
+                  </button>
+                </div>
+
+                {/* 지사 전용 앱 */}
+                <div className="bg-white/5 rounded-2xl p-6 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div>
+                    <h3 className="text-xl font-bold text-amber-400 mb-2">지사 전용 앱</h3>
+                    <p className="text-slate-300 text-sm break-keep">월간계획 자동화, 주간계획 자동화, 이메일 자동화</p>
+                  </div>
+                  <button className="bg-white text-slate-900 px-5 py-3 rounded-xl font-bold hover:bg-slate-100 transition-colors flex items-center justify-center shrink-0">
+                    <Play className="mr-2" size={20} fill="currentColor" /> 구글 플레이 다운로드
+                  </button>
+                </div>
+
+                {/* 미용봉사 전용 앱 */}
+                <div className="bg-white/5 rounded-2xl p-6 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div>
+                    <h3 className="text-xl font-bold text-amber-400 mb-2">미용봉사 전용 앱</h3>
+                    <p className="text-slate-300 text-sm break-keep">일정 선택, 일정 공유, 매칭</p>
+                  </div>
+                  <a href="https://beauty.janggostory.com" target="_blank" rel="noopener noreferrer" className="bg-blue-600 text-white px-5 py-3 rounded-xl font-bold hover:bg-blue-500 transition-colors flex items-center justify-center shrink-0">
+                    <ChevronRight className="mr-1" size={20} /> 사이트 바로이동
+                  </a>
+                </div>
               </div>
             </FadeIn>
           </div>

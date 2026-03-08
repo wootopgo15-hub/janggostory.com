@@ -1,15 +1,5 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>장고교육개발원</title>
-    <meta name="naver-site-verification" content="df3690697359ef8de2556c3e713626d5a2de9561" />
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7204177319630647" crossorigin="anonymous"></script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
-
+{
+  "name": "장고교육개발원홈페이지",
+  "description": "",
+  "requestFramePermissions": []
+}
