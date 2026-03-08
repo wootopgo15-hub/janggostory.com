@@ -8,6 +8,73 @@ import {
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyLqOMLrlGM_K7MdwaRi1jJEDeDdqIvrvTZs_talOEhkd3UbieainhEx6LBbYhQV-ob/exec';
 
+const GoogleAd = ({ className }: { className?: string }) => {
+  const adPushed = React.useRef(false);
+  const insRef = React.useRef<HTMLModElement>(null);
+
+  useEffect(() => {
+    let observer: ResizeObserver | null = null;
+
+    const pushAd = () => {
+      if (!adPushed.current && insRef.current && insRef.current.clientWidth > 0) {
+        try {
+          // @ts-ignore
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+          adPushed.current = true;
+          if (observer) observer.disconnect();
+        } catch (e: any) {
+          // Ignore the "already have ads" error which happens in React Strict Mode
+          if (e.message && e.message.includes('already have ads')) {
+            adPushed.current = true;
+            if (observer) observer.disconnect();
+          } else {
+            console.error("AdSense error", e);
+          }
+        }
+      }
+    };
+
+    // Check immediately
+    pushAd();
+
+    // Set up a ResizeObserver to push the ad only when it becomes visible
+    observer = new ResizeObserver(() => {
+      // Use requestAnimationFrame to avoid "ResizeObserver loop limit exceeded" error
+      window.requestAnimationFrame(() => {
+        pushAd();
+      });
+    });
+
+    if (insRef.current && !adPushed.current) {
+      observer.observe(insRef.current);
+    }
+
+    return () => {
+      if (observer) {
+        observer.disconnect();
+      }
+    };
+  }, []);
+
+  return (
+    <div className={`bg-white border border-slate-200 shadow-sm rounded-xl overflow-hidden flex flex-col w-full h-full ${className || ''}`}>
+      <div className="bg-white border-b border-slate-100 text-[10px] text-slate-400 text-center py-2 uppercase tracking-wider font-medium shrink-0">
+        Advertisement
+      </div>
+      <div className="flex-1 w-full h-full bg-white p-2">
+        <ins
+          ref={insRef}
+          className="adsbygoogle"
+          style={{ display: "block", width: "100%", height: "100%" }}
+          data-ad-client="ca-pub-7204177319630647"
+          data-ad-format="vertical"
+          data-full-width-responsive="true"
+        ></ins>
+      </div>
+    </div>
+  );
+};
+
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [branches, setBranches] = useState<any[]>([]);
@@ -102,9 +169,21 @@ export default function App() {
   );
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-800">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md z-50 border-b border-slate-200 shadow-sm">
+    <div className="min-h-screen bg-white font-sans text-slate-800">
+      {/* Left AdSense Sidebar */}
+      <div className="hidden min-[1640px]:flex flex-col fixed top-6 bottom-6 left-6 w-[calc(50vw-768px-3rem)] min-w-[160px] z-40">
+        <GoogleAd />
+      </div>
+
+      {/* Right AdSense Sidebar */}
+      <div className="hidden min-[1640px]:flex flex-col fixed top-6 bottom-6 right-6 w-[calc(50vw-768px-3rem)] min-w-[160px] z-40">
+        <GoogleAd />
+      </div>
+
+      {/* Main Content Wrapper */}
+      <div className="w-full max-w-[1536px] mx-auto min-h-screen bg-slate-50 relative shadow-2xl overflow-hidden">
+        {/* Navigation */}
+        <nav className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-[1536px] bg-white/90 backdrop-blur-md z-50 border-b border-slate-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center cursor-pointer" onClick={() => window.scrollTo(0,0)}>
@@ -628,6 +707,7 @@ export default function App() {
           </div>
         )}
       </AnimatePresence>
+      </div>
     </div>
   );
 }
