@@ -171,12 +171,12 @@ export default function App() {
   return (
     <div className="min-h-screen bg-white font-sans text-slate-800">
       {/* Left AdSense Sidebar */}
-      <div className="hidden min-[1640px]:flex flex-col fixed top-6 bottom-6 left-6 w-[calc(50vw-768px-3rem)] min-w-[160px] z-40">
+      <div className="hidden min-[1640px]:flex flex-col fixed top-1/2 -translate-y-1/2 left-6 w-[calc(50vw-768px-3rem)] min-w-[160px] h-[600px] z-40">
         <GoogleAd />
       </div>
 
       {/* Right AdSense Sidebar */}
-      <div className="hidden min-[1640px]:flex flex-col fixed top-6 bottom-6 right-6 w-[calc(50vw-768px-3rem)] min-w-[160px] z-40">
+      <div className="hidden min-[1640px]:flex flex-col fixed top-1/2 -translate-y-1/2 right-6 w-[calc(50vw-768px-3rem)] min-w-[160px] h-[600px] z-40">
         <GoogleAd />
       </div>
 
