@@ -510,6 +510,17 @@ export default function App() {
                     <ChevronRight className="mr-1" size={20} /> 사이트 바로이동
                   </a>
                 </div>
+
+                {/* 치매예방두뇌게임 */}
+                <div className="bg-white/5 rounded-2xl p-6 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div>
+                    <h3 className="text-xl font-bold text-amber-400 mb-2">치매예방두뇌게임</h3>
+                    <p className="text-slate-300 text-sm break-keep">어르신 맞춤형 인지 강화 두뇌 훈련</p>
+                  </div>
+                  <a href="https://brain-games-for-dementia-prevention.vercel.janggostory.com" target="_blank" rel="noopener noreferrer" className="bg-blue-600 text-white px-5 py-3 rounded-xl font-bold hover:bg-blue-500 transition-colors flex items-center justify-center shrink-0">
+                    <ChevronRight className="mr-1" size={20} /> 사이트 바로이동
+                  </a>
+                </div>
               </div>
             </FadeIn>
           </div>
