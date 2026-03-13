@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { 
   Phone, BookOpen, Award, MapPin, Smartphone, 
   CheckCircle2, Users, HeartHandshake, ChevronRight, Menu, X, Play,
-  Download, Music, Activity, Smile, Puzzle, Brain, Palette, Mic2, Gamepad2
+  Download, Music, Activity, Smile, Puzzle, Brain, Palette, Mic2, Gamepad2,
+  Instagram, Youtube, BookText
 } from 'lucide-react';
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyLqOMLrlGM_K7MdwaRi1jJEDeDdqIvrvTZs_talOEhkd3UbieainhEx6LBbYhQV-ob/exec';
@@ -106,7 +107,18 @@ export default function App() {
       .then(res => res.json())
       .then(data => {
         if (data && data.length > 0) {
-          setBranches(data);
+          // Fix typo from Google Sheet
+          const correctedData = data.map((branch: any) => {
+            const correctedBranch = { ...branch };
+            if (correctedBranch['지사명'] && correctedBranch['지사명'].includes('랏')) {
+              correctedBranch['지사명'] = correctedBranch['지사명'].replace(/랏/g, '예산');
+            }
+            if (correctedBranch['지역'] && correctedBranch['지역'].includes('랏')) {
+              correctedBranch['지역'] = correctedBranch['지역'].replace(/랏/g, '예산');
+            }
+            return correctedBranch;
+          });
+          setBranches(correctedData);
         } else {
           throw new Error("No data");
         }
@@ -258,9 +270,13 @@ export default function App() {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 break-keep">
               어르신들의 <span className="text-amber-400">행복한 내일</span>을<br />디자인합니다
             </h1>
-            <p className="text-xl md:text-2xl text-slate-200 mb-10 leading-relaxed break-keep font-light">
+            <p className="text-xl md:text-2xl text-slate-200 mb-6 leading-relaxed break-keep font-light">
               주간보호센터, 요양원, 요양병원, 경로당 전문<br className="hidden md:block" />
               최고의 강사진과 검증된 시니어 맞춤형 프로그램
+            </p>
+            <p className="text-base md:text-lg text-slate-300 mb-10 leading-relaxed break-keep font-light italic">
+              "당신의 다음 한 수, 장고의 끝에 승리가 있습니다."<br />
+              "장고(長考) 깊은 생각, 더 높은 결과. 당신의 장고를 응원합니다."
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <button onClick={() => scrollTo('consultation')} className="bg-amber-500 text-slate-900 px-8 py-4 rounded-xl font-bold text-lg hover:bg-amber-400 transition-colors flex items-center justify-center shadow-lg shadow-amber-500/20">
@@ -599,7 +615,40 @@ export default function App() {
               <p className="mb-2">주소: 충청남도 천안시 서북구 늘푸른 1길, 3층</p>
               <p>이메일: janggo1987@naver.com | 대표번호: 010-8971-4304</p>
             </div>
-            <div className="md:text-right">
+            <div className="md:text-right flex flex-col md:items-end items-start mt-8 md:mt-0">
+              <p className="text-slate-300 font-medium mb-3">📸 더 많은 소식과 생생한 교육 현장을 만나보세요!</p>
+              <div className="flex flex-wrap gap-3 mb-6">
+                <a 
+                  href="https://blog.naver.com/janggo1983" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2 bg-slate-800 hover:bg-[#03C75A] text-slate-300 hover:text-white px-4 py-2 rounded-full transition-all duration-300"
+                  aria-label="네이버 블로그"
+                >
+                  <BookText size={20} />
+                  <span className="text-sm font-medium">블로그</span>
+                </a>
+                <a 
+                  href="https://www.youtube.com/@janggo9988" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2 bg-slate-800 hover:bg-red-600 text-slate-300 hover:text-white px-4 py-2 rounded-full transition-all duration-300"
+                  aria-label="유튜브"
+                >
+                  <Youtube size={20} />
+                  <span className="text-sm font-medium">유튜브</span>
+                </a>
+                <a 
+                  href="https://www.instagram.com/janggo1987" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2 bg-slate-800 hover:bg-pink-600 text-slate-300 hover:text-white px-4 py-2 rounded-full transition-all duration-300"
+                  aria-label="인스타그램"
+                >
+                  <Instagram size={20} />
+                  <span className="text-sm font-medium">인스타그램</span>
+                </a>
+              </div>
               <p className="text-sm">
                 &copy; {new Date().getFullYear()} 장고교육개발원. All rights reserved.
               </p>
